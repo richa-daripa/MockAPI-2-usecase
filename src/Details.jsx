@@ -10,8 +10,8 @@ const Details = () => {
   const [show, setShow] = useState(false);
   const [select, setSelect] = useState(null);
   const [error, setError] = useState(null);
-  const[delConfirm,showDelConfirm]=useState(false);
-  const[delUser,setDelUser]=useState(null);
+  const [delConfirm, showDelConfirm] = useState(false);
+  const [delUser, setDelUser] = useState(null);
 
   useEffect(() => {
     axios
@@ -25,20 +25,29 @@ const Details = () => {
   }, []);
 
   if (error) return `Error: ${error.message}`;
-  
+
   const handleView = (userX) => {
     setSelect(userX);
     setShow(true);
   };
 
-const handleDeleteConfirm=(id)=>{
+  const handleDeleteConfirm = (id) => {
     setDelUser(id);
     showDelConfirm(true);
-}
+  }
+   const handleDelete = () => {
+       setUser((prev) => prev.filter((u) => u.id !== delUser));
+       showDelConfirm(false);
+   };
+/*
   const handleDelete = () => {
-      setUser((prev) => prev.filter((u) => u.id !== delUser));
+    try {
+      axios.delete(`${API_URL}/${delUser}`);
       showDelConfirm(false);
-  };
+    } catch (error) {
+      alert("Failed to delete user");
+    }
+  }*/
 
   return (
     <div className="container mt-5">
@@ -52,7 +61,7 @@ const handleDeleteConfirm=(id)=>{
             </tr>
             <tr className="fs-5">
               <th>UserID</th>
-              <th className="w-50">Name</th>
+              <th className="w-25">Name</th>
               <th className="w-25">Designation</th>
               <th>Actions</th>
             </tr>
@@ -97,21 +106,21 @@ const handleDeleteConfirm=(id)=>{
         <ProfileCard show={show} setShow={setShow} selectUser={select} />
       )}
       <Modal
-            show={delConfirm}
-            onHide={() => showDelConfirm(false)}
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
-            <Modal.Body className="m-2">
-                <div className="text-center">
-                    <h5>Are you sure you want to delete UserID {delUser}?</h5>
-                </div>
-                <div className='d-flex justify-content-center align-items-center mt-4'>
-                    <Button className="me-5 w-25 bg-secondary-subtle text-black" onClick={()=>showDelConfirm(false)}>No</Button>
-                    <Button  className="w-25 bg-danger" onClick={handleDelete}>Yes</Button>
-                </div>
-            </Modal.Body>
-        </Modal>
+        show={delConfirm}
+        onHide={() => showDelConfirm(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Body className="m-2">
+          <div className="text-center">
+            <h5>Are you sure you want to delete UserID {delUser}?</h5>
+          </div>
+          <div className='d-flex justify-content-center align-items-center mt-4'>
+            <Button className="me-5 w-25 bg-secondary-subtle text-black" onClick={() => showDelConfirm(false)}>No</Button>
+            <Button className="w-25 bg-danger" onClick={handleDelete}>Yes</Button>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

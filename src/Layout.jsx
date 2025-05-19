@@ -18,9 +18,9 @@ export default function Layout() {
     <div>
       <Navbar className="text-bg-dark fixed-top">
         <Container>
-          <Navbar.Brand className="text-white">Team Hub</Navbar.Brand>
+          <Navbar.Brand className="text-white">Project Team Hub</Navbar.Brand>
           <div className="d-flex justify-content-between align-items-center">
-            <i class="bi bi-person-circle fs-2 text-secondary me-2"></i>Hello, {userName}
+            <i class="bi bi-person-circle fs-2 text-secondary me-2"></i>Hi, {userName}
             <Button variant="primary ms-4" onClick={handleLogOut}>Logout</Button>
           </div>
         </Container>

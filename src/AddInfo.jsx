@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { API_URL } from './data.js';
 import { Container, Toast } from 'react-bootstrap';
 
 const AddInfo = () => {
@@ -11,19 +13,29 @@ const AddInfo = () => {
   } = useForm({ mode: 'onChange' });
   const [show, setShow] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-  };
+  const [imageUrl, setImageUrl] = useState("");
 
-  /*const onSubmit = async (data) => {
+const handleImage = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+
+  reader.onloadend = () => {
+    setImageUrl(reader.result); // Save the base64 image
+  };
+};
+
+  const onSubmit = async (data) => {
     const apimap={
       name: data.name,
-    avatar: data.profileImage,
+    avatar: imageUrl,
     designation: data.designation,
     gender: data.gender,
     phoneNo: data.phno,
     }
+
     try{
       const response=await axios.post(API_URL,apimap);
       console.log(response.data);
@@ -32,7 +44,7 @@ const AddInfo = () => {
       setShow(false);
     }
     reset();
-  };*/
+  };
 
   return (
     <>
@@ -51,7 +63,7 @@ const AddInfo = () => {
           <h4 className="fs-5 pb-3">Fill User Details</h4>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-3">
-              <label className="form-label">Name</label>
+              <label className="form-label">Full Name</label>
               <input
                 type="text"
                 className="form-control border border-info"
@@ -61,11 +73,12 @@ const AddInfo = () => {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Profile image URL</label>
+              <label className="form-label">Profile image</label>
               <input
                 className="form-control border border-info "
-                type="text"
-                {...register('profileImage', { required: true })}
+                type="file" accept=".jpg, .png, .jpeg" 
+                 {...register("profileImage", { required: true })}
+                onChange={handleImage}
               />
               {errors.profileImage && (
                 <small className="text-danger">Required</small>
@@ -82,32 +95,6 @@ const AddInfo = () => {
               {errors.designation && (
                 <small className="text-danger">Required</small>
               )}
-            </div>
-
-            <div className="row mt-3">
-              <div className="col">
-                <label className="form-label">Gender</label>
-                <select
-                  className="form-select border border-info"
-                  {...register('gender')}
-                >
-                  <option value="">Select</option>
-                  <option value="Female">Female</option>
-                  <option value="Male">Male</option>
-                </select>
-              </div>
-              <div className="col">
-                <label className="form-label">Phone no.</label>
-                <div className="input-group border border-info rounded-3">
-                  <span className="input-group-text">+91</span>
-                  <input
-                    type="text"
-                    className="form-control "
-                    {...register('phno', { required: true })}
-                  />
-                </div>
-                {errors.phno && <small className="text-danger">Required</small>}
-              </div>
             </div>
 
             <button

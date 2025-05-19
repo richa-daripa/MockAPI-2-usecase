@@ -1,5 +1,5 @@
-import axios from 'axios';
-export const API_URL = 'https://fcfa2f07-e3ee-442c-a475-e66ef7415112.mock.pstmn.io/users';
+
+export const API_URL = 'https://682aafcdab2b5004cb3761ac.mockapi.io/api/v1/users';
 
 const credentials={
   username:'Richard',
