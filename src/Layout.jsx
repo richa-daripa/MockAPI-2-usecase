@@ -1,7 +1,5 @@
 import React from 'react';
-import Details from './Details';
-import AddInfo from './AddInfo';
-import { Route, useNavigate, Routes, Link } from 'react-router-dom';
+import { useNavigate, Link, Outlet } from 'react-router-dom';
 import { Navbar, Container, Button } from 'react-bootstrap';
 
 export default function Layout() {
@@ -31,7 +29,7 @@ export default function Layout() {
           className="text-white p-3"
           style={{ width: '150px', backgroundColor:"rgb(140,140,140"}}
         >
-          <Link className="btn bg-success-subtle w-100 mb-2 mt-5" to="/layout/details">
+          <Link className="btn bg-success-subtle w-100 mb-2 mt-5" to="/layout">
             Dashboard
           </Link>
           <Link className="btn bg-success-subtle w-100" to="/layout/addinfo">
@@ -40,10 +38,7 @@ export default function Layout() {
         </div>
 
         <div className="flex-grow-1 p-4">
-          <Routes>
-            <Route path="/details" element={<Details />} />
-            <Route path="/addinfo" element={<AddInfo />} />
-          </Routes>
+          <Outlet/>
         </div>
       </div>
     </div>

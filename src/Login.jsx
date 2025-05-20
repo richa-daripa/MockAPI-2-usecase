@@ -21,7 +21,7 @@ const Login = () => {
       data.passwd === credentials.password
     ) {
         localStorage.setItem("userName",data.uname);
-      navigate('/layout/details');
+      navigate('/layout');
 
     } else if (data.uname !== credentials.username) {
       alert('Invalid username');
