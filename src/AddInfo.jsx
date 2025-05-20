@@ -15,31 +15,29 @@ const AddInfo = () => {
 
   const [imageUrl, setImageUrl] = useState("");
 
-const handleImage = (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
+  const handleImage = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-  reader.onloadend = () => {
-    setImageUrl(reader.result); // Save the base64 image
+    reader.onloadend = () => {
+      setImageUrl(reader.result); // Save the base64 image
+    };
   };
-};
 
   const onSubmit = async (data) => {
-    const apimap={
+    const apimap = {
       name: data.name,
-    avatar: imageUrl,
-    designation: data.designation,
-    gender: data.gender,
-    phoneNo: data.phno,
+      avatar: imageUrl,
+      designation: data.designation
     }
 
-    try{
-      const response=await axios.post(API_URL,apimap);
+    try {
+      const response = await axios.post(API_URL, apimap);
       console.log(response.data);
-    }catch(error){
+    } catch (error) {
       alert("Failed to add user. Try again later!")
       setShow(false);
     }
@@ -76,8 +74,8 @@ const handleImage = (event) => {
               <label className="form-label">Profile image</label>
               <input
                 className="form-control border border-info "
-                type="file" accept=".jpg, .png, .jpeg" 
-                 {...register("profileImage", { required: true })}
+                type="file" accept=".jpg, .png, .jpeg"
+                {...register("profileImage", { required: true })}
                 onChange={handleImage}
               />
               {errors.profileImage && (
