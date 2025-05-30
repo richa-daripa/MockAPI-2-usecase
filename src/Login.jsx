@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import credentials from './data.js';
 import { isValid } from './data.js';
@@ -13,30 +13,32 @@ const Login = () => {
   } = useForm({ mode: 'onChange' });
 
   const navigate = useNavigate();
+  const[errmsg,setErrmsg]=useState(false);
 
   const onSubmit = (data) => {
-    //console.log("Submitted the form", data);
     if (
       data.uname === credentials.username &&
       data.passwd === credentials.password
     ) {
-        localStorage.setItem("userName",data.uname);
+      localStorage.setItem("userName",data.uname);
       navigate('/layout');
-
-    } else if (data.uname !== credentials.username) {
-      alert('Invalid username');
-    } else if (data.passwd !== credentials.password) {
-      alert('Invalid password');
-    }
+    } else {
+      setErrmsg(true);
+      setTimeout(()=>{
+        setErrmsg(false);
+      },3000)
+    } 
   };
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
       <div
-        className="container mt-3 border border-2 p-4 rounded-3 shadow"
-        style={{ maxWidth: '350px' }}
+        className="container mt-3 border border-2 p-4 rounded-3 shadow " style={{maxWidth:"320px"}}
       >
         <h2 className="text-center mb-4">Login</h2>
+        {errmsg && 
+         <small className="text-danger d-block text-center">Either username or password is wrong</small>
+        }
         <form  onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4 mt-3">
             <label className="pb-2">Username:</label>
@@ -44,12 +46,13 @@ const Login = () => {
               type="text"
               className="form-control border-2"
               {...register('uname', {
-                required: 'This input is required',
+                required: 'Required',
                 pattern: {
                   value: /^[a-zA-Z]{5,}$/,
                   message: 'Should contain only alphabets',
                 },
               })}
+             
             />
             {errors.uname && (
               <span className="error-msg">{errors.uname.message}</span>
@@ -59,11 +62,12 @@ const Login = () => {
             <label className="pb-2">Password:</label>
             <input
               type="password"
-              className="form-control border-2"
+              className="form-control border-2" 
               {...register('passwd', {
-                required: 'This input is required',
+                required: 'Required',
                 validate: isValid,
               })}
+             
             />
             {errors.passwd && (
               <span className="error-msg">{errors.passwd.message}</span>
