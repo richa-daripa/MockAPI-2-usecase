@@ -45,7 +45,7 @@ export default function Layout({ setLoggedin, loggedin }) {
             to="/layout"
             end
             style={({ isActive }) => ({
-              color: isActive ? 'blue' : 'black',
+              color: isActive ? 'blue' : '',
             })}
           >
             Dashboard
@@ -54,7 +54,7 @@ export default function Layout({ setLoggedin, loggedin }) {
             className="btn bg-info-subtle w-100"
             to="/layout/addinfo"
             style={({ isActive }) => ({
-              color: isActive ? 'blue' : 'black',
+              color: isActive ? 'blue' : '',
             })}
           >
             User Form
