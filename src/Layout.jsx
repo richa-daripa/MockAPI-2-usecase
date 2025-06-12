@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, NavLink, Outlet } from 'react-router-dom';
-import { Navbar, Container, Button, Modal } from 'react-bootstrap';
+import { Navbar, Container, Button, Modal, Dropdown } from 'react-bootstrap';
 import './style.css'
 
-export default function Layout() {
+export default function Layout({ setLoggedin, loggedin }) {
   const userName = localStorage.getItem('userName');
   const [logoutConfirm, setLogoutConfirm] = useState(false);
 
@@ -11,6 +11,7 @@ export default function Layout() {
 
   const handleLogOut = () => {
     localStorage.removeItem('userName');
+    setLoggedin(false);
     navigate('/');
   };
   return (
@@ -18,16 +19,22 @@ export default function Layout() {
       <Navbar className="text-bg-dark fixed-top">
         <Container>
           <Navbar.Brand className="text-white">Project Team Hub</Navbar.Brand>
-          <div className="d-flex justify-content-between align-items-center">
-            <i class="bi bi-person-circle fs-2 text-secondary me-2"></i>Hi,{' '}
-            {userName}
-            <Button
-              variant="primary ms-4"
-              onClick={() => setLogoutConfirm(true)}
-            >
-              Logout
-            </Button>
-          </div>
+          {
+            loggedin && (
+              <Dropdown>
+                <Dropdown.Toggle as="span" className='custom-toggle'>
+                  <i className="bi bi-person-circle fs-2 text-secondary"></i>
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu align="end">
+                  <p className='px-3'>Hi, {userName}</p>
+                  <Dropdown.Item onClick={() => setLogoutConfirm(true)}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            )
+          }
+
+
         </Container>
       </Navbar>
 

@@ -26,8 +26,16 @@ p {
 
 .disableBtn:disabled {
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .outlet-style{
   padding-left: 13%;
 }
+.custom-toggle{
+  cursor: pointer;
+}
+.custom-toggle::after {
+  display: none !important; /* Hides the arrow */
+}
+

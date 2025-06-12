@@ -5,7 +5,7 @@ import { isValid } from './data.js';
 import { useForm } from 'react-hook-form';
 import './style.css';
 
-const Login = () => {
+const Login = ({setLoggedin}) => {
   const {
     register,
     handleSubmit,
@@ -22,6 +22,7 @@ const Login = () => {
     ) {
       localStorage.setItem("userName",data.uname);
       navigate('/layout');
+      setLoggedin(true);
     } else {
       setErrmsg(true);
       setTimeout(()=>{
